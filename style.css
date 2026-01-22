@@ -1,0 +1,22 @@
+@font-face {
+ font-family: 'Bitcount Single';
+ src: url(./BitcountSingle-Light.ttf) format('');
+}
+
+body {
+    background: black;
+    color: white;
+}
+
+h1 {
+  font-family: "Bitcount Single", Georgia;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-style: normal;
+font-size: x;
+  font-variation-settings:
+    "slnt" 0,
+    "CRSV" 0.5,
+    "ELSH" 0,
+    "ELXP" 0;
+}
