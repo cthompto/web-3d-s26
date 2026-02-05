@@ -1,5 +1,6 @@
 let myShape;
-
+let lightZ = 100;
+let lightDir = false;
 
 function setup() {
     let canvas = createCanvas(400, 400, WEBGL);
@@ -8,18 +9,38 @@ function setup() {
 }
 
 function draw() {
-    background(0);
+    background(200);
     orbitControl();
     noStroke();
     lights();
-    fill(0,255,255);
+    pointLight(15,0,0,0,0,lightZ);
+    
+    // handling the animation
+    if(lightDir) {
+        lightZ++;
+        if(lightZ >= 100) {
+            lightDir = false;
+        }
+    } else if(!lightDir) {
+        lightZ--;
+        if(lightZ <= -100) {
+            lightDir = true;
+        }
+    }
+    
+    //ambientLight(255,255,0);
+    fill(100);
     shininess(10);
-    specularMaterial(255,0,255);
+    specularMaterial(255);
     //emissiveMaterial(255,0,255);
     ellipsoid(100,50,25);
     //filter(POSTERIZE, 1);
     //model(myShape);
-    
+    push();
+    translate(0,100,0);
+    noLights();
+    box(50);
+    pop();
 }
 
 // demo for proceedural shapes
