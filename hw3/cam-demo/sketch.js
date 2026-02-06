@@ -1,10 +1,11 @@
 let myShape;
-
+let rotNum = 0;
 
 function setup() {
-    let canvas = createCanvas(400, 400, WEBGL);
+    let canvas = createCanvas(600, 600, WEBGL);
     angleMode(DEGREES);
     //ballBlob();
+    //ortho();
 }
 
 function draw() {
@@ -16,7 +17,18 @@ function draw() {
     shininess(10);
     specularMaterial(255,0,255);
     //emissiveMaterial(255,0,255);
-    ellipsoid(100,50,25);
+    rotateX(rotNum);
+    rotateY(rotNum*0.75);
+    rotNum++;
+    for(let i = 0; i < 10; i++) {
+        for(let j = 0; j < 10; j++) {
+            push();
+            translate((i*50)-200,(j*50)-200,0);
+            box(20);
+            pop();
+        }
+    }
+    
     //filter(POSTERIZE, 1);
     //model(myShape);
     
