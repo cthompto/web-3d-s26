@@ -68,6 +68,8 @@ function draw() {
         }
     }
     
+    //box(100);
+    
     // draw 3D array of cubes
     for (let i = 0; i < 9; i++) {
         for (let j = 0; j < 9; j++) {
