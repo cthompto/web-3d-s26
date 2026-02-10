@@ -6,8 +6,7 @@ let obY = 0;
 function setup() {
     let canvas = createCanvas(600, 600, WEBGL);
     canvas.id("myCanvas");
-    canvas.parent("p5-holder");
-    document.getElementById("myCanvas").style.borderRadius = "50%";
+    canvas.parent("p5-holder"); document.getElementById("myCanvas").style.borderRadius = "50%";
     angleMode(DEGREES);
     createObject();
     createObject2();

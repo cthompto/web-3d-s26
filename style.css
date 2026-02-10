@@ -50,7 +50,7 @@ h2 {
   color: lightgray;
 }
 
-p {
+p, ul {
   font-family: "Cascadia Code", sans-serif;
   font-optical-sizing: auto;
   font-weight: 400;
