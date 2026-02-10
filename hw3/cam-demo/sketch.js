@@ -3,6 +3,7 @@ let rotNum = 0;
 
 function setup() {
     let canvas = createCanvas(600, 600, WEBGL);
+    canvas.parent("p5-holder"); 
     angleMode(DEGREES);
     //ballBlob();
     //ortho();

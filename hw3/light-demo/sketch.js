@@ -4,6 +4,7 @@ let lightDir = false;
 
 function setup() {
     let canvas = createCanvas(400, 400, WEBGL);
+    canvas.parent("p5-holder"); 
     angleMode(DEGREES);
     //ballBlob();
 }
