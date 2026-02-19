@@ -1,11 +1,13 @@
-let myShape;
-let myOthershape; 
+let myImage;
+let myGrpahic;
 let modelSwap = false;
 let objectSwap = false;
+let imgW = 200;
 
 function preload() {
-  myShape = loadModel('./redCar.obj', true);
-  myOthershape = loadModel('./LowPolyBunny.obj', true);
+  myImage = loadImage('./a-walk-thumb.png');
+  myGraphic = loadImage('./obold.png');
+
 }
 
 function setup() {
@@ -15,42 +17,33 @@ function setup() {
 }
 
 function draw() {
-    background(255);
+    background(255,0,255);
+    orbitControl();
     lights();
     fill(0,255,255);
     shininess(10);
     specularMaterial(255,0,255);
 
-    // code for left side
+    // code for object
     push();
-    rotateX(180);
-    translate(-100,0,0);
-    if(modelSwap) {
-      rotateY(-90);
-      model(myOthershape);
-    } else if(!modelSwap) {
-      model(myShape);
-    }
-    pop();
-
-    // code for right side
-    push();
-    translate(100,0,0);
     if(objectSwap) {
       box();
     } else if(!objectSwap) {
       sphere();
     }
     pop();
-}
 
-// code for mouse press
-function mousePressed() {
-  if(modelSwap) {
-    modelSwap = false;
-  } else if(!modelSwap) {
-    modelSwap = true;
-  }
+    // regular raster image
+    push();
+    translate(0,0,-100);
+    image(myImage,-imgW,-imgW,imgW*2);
+    pop();
+
+    // transparent image
+    push();
+    translate(0,0,100);
+    image(myGraphic,-500,-500);
+    pop();
 }
 
 // code for key press
