@@ -1,5 +1,5 @@
 let myImage;
-let myGrpahic;
+let myGraphic;
 let modelSwap = false;
 let objectSwap = false;
 let imgW = 200;
@@ -7,7 +7,6 @@ let imgW = 200;
 function preload() {
   myImage = loadImage('./a-walk-thumb.png');
   myGraphic = loadImage('./obold.png');
-
 }
 
 function setup() {
