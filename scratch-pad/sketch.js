@@ -23,4 +23,26 @@ function draw() {
     fill(0);
     box(25);
     
+    // Angle down and to the right to get a better view
+rotateX(PI * -0.2);
+rotateY(PI * 0.2);
+
+// Draw a strip of quads in a spiral formation
+beginShape(QUAD_STRIP);
+for (let z = -100; z < 100; z += 5) {
+  fill((z + frameCount) % 360, 100, 100);
+  
+  // Rotate the end point based on how far back it is,
+  // and additionally based on the time
+  let endPoint = createVector(0, 20);
+  endPoint.rotate((z + frameCount) * 0.1);
+  
+  // In a QUAD_STRIP, each pair of vertices forms a
+  // quad with the next pair. By making each pair have
+  // a small y offset between them, we make a vertical
+  // ribbon.
+  vertex(endPoint.x, endPoint.y - 5, z);
+  vertex(endPoint.x, endPoint.y + 5, z);
+}
+endShape();
 }
