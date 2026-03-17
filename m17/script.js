@@ -23,7 +23,7 @@ let moveForward = false;
 let moveBackward = false;
 let moveLeft = false;
 let moveRight = false;
-let canJump = false;
+let canJump = true;
 
 let prevTime = performance.now();
 const velocity = new THREE.Vector3();
@@ -203,7 +203,6 @@ function animate() {
     // Start First Person Control Animations
     const time = performance.now();
     if ( controls.isLocked === true ) {
-
         const delta = ( time - prevTime ) / 1000;
 
         velocity.x -= velocity.x * 10.0 * delta;
@@ -221,7 +220,13 @@ function animate() {
         controls.moveRight( - velocity.x * delta );
         controls.moveForward( - velocity.z * delta );
         
-        canJump = true;
+        controls.object.position.y += ( velocity.y * delta );
+        if ( controls.object.position.y < 10 ) {
+            velocity.y = 0;
+            controls.object.position.y = 10;
+
+            canJump = true;
+        }
     }
 
     prevTime = time;
