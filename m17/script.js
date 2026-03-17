@@ -220,6 +220,7 @@ function animate() {
         controls.moveRight( - velocity.x * delta );
         controls.moveForward( - velocity.z * delta );
         
+        // jump fix
         controls.object.position.y += ( velocity.y * delta );
         if ( controls.object.position.y < 10 ) {
             velocity.y = 0;
