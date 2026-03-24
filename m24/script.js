@@ -182,6 +182,25 @@ function init() {
 
     // Add world geometry
 
+    // March 24 example material and object
+    
+    // donut shape
+    const donut = new THREE.TorusGeometry( 50, 20, 16, 100 );
+    
+    // donut solid color
+    const donutMaterial = new THREE.MeshBasicMaterial( { color: 0xffff00 } );
+    const torus = new THREE.Mesh( donut, donutMaterial );
+    torus.position.z = -250;
+    torus.position.y = 50;
+    scene.add( torus );
+    
+    // donut line color
+    const donutLine = new THREE.MeshBasicMaterial( { color: 0x000000, wireframe: true } );
+    const torusLine = new THREE.Mesh( donut, donutLine ); 
+    torusLine.position.z = -250;
+    torusLine.position.y = 50;
+    scene.add( torusLine );
+    
     // Grouping of trees
     const geometry = new THREE.ConeGeometry(10, 60, 8, 1);
     const material = new THREE.MeshPhongMaterial({ color: 0x14401e, flatShading: true });
