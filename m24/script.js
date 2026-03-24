@@ -30,6 +30,9 @@ let prevTime = performance.now();
 const velocity = new THREE.Vector3();
 const direction = new THREE.Vector3();
 
+// march 24 variables 
+let torusLine;
+
 // Run the "init" function which is like "setup" in p5.
 init();
 
@@ -196,10 +199,20 @@ function init() {
     
     // donut line color
     const donutLine = new THREE.MeshBasicMaterial( { color: 0x000000, wireframe: true } );
-    const torusLine = new THREE.Mesh( donut, donutLine ); 
+    torusLine = new THREE.Mesh( donut, donutLine ); 
     torusLine.position.z = -250;
     torusLine.position.y = 50;
     scene.add( torusLine );
+    
+    // torus knot shape
+    const coolShape = new THREE.TorusKnotGeometry( 10, 3, 100, 16 );
+    
+    // torus knot color
+    const knotColor = new THREE.MeshPhongMaterial( {color: 0x7f01a2} );
+    const knotShape = new THREE.Mesh( coolShape, knotColor );
+    knotShape.position.z = -300;
+    knotShape.position.y = 50;
+    scene.add( knotShape );
     
     // Grouping of trees
     const geometry = new THREE.ConeGeometry(10, 60, 8, 1);
@@ -272,6 +285,8 @@ function animate() {
     prevTime = time;
     // End First Person Control Animations
 
+    torusLine.rotation.z += 0.001;
+    
     render();
 }
 
