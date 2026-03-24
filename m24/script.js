@@ -161,32 +161,23 @@ function init() {
             side: THREE.DoubleSide
         });
 
-        const message = "March 24";
+        // create message
+        const message = "March 24th\nDemo";
+        
+        // generate text shapes
         const shapes = font.generateShapes(message, 40);
         const fontGeo = new THREE.ShapeGeometry(shapes);
         fontGeo.computeBoundingBox();
+        
+        // center alignment
         const xMid = -0.5 * (fontGeo.boundingBox.max.x - fontGeo.boundingBox.min.x);
         fontGeo.translate(xMid, 0, 0);
-        const text = new THREE.Mesh(fontGeo, matLite);
-        //text.position.y = 250;
-        scene.add(text);
 
-        //// create message/text
-        //const message = "Tuesday March 24\nDemo";
-        //
-        //// create shapes from font and message
-        //const shapes = font.generateShapes(message, 100);
-        //const textGeometry = new THREE.ShapeGeometry(shapes);
-        //textGeometry.computeBoundingBox();
-        //
-        //// center alignment
-        //const xMid = - 0.5 * ( textGeometry.boundingBox.max.x - textGeometry.boundingBox.min.x );
-        //textGeometry.translate( xMid, 0, 0 );
-        //
-        //// add objects to scene
-        //const text = new THREE.Mesh(textGeometry, matLite);
-        //text.position.y = 100;
-        //scene.add(text);
+        // add to scene
+        const text = new THREE.Mesh(fontGeo, matLite);
+        text.position.z = -200;
+        text.position.y = 50;
+        scene.add(text);
     });
 
     // Add world geometry
