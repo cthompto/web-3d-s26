@@ -160,15 +160,15 @@ function init() {
         const matLite = new THREE.MeshBasicMaterial({
             color: color,
             transparent: true,
-            opacity: 0.4,
+            opacity: 0.6,
             side: THREE.DoubleSide
         });
 
         // create message
-        const message = "March 24th\nDemo";
+        const message = "March 24th Demo";
         
         // generate text shapes
-        const shapes = font.generateShapes(message, 40);
+        const shapes = font.generateShapes(message, 30);
         const fontGeo = new THREE.ShapeGeometry(shapes);
         fontGeo.computeBoundingBox();
         
@@ -197,7 +197,10 @@ function init() {
     torus.position.y = 50;
     scene.add( torus );
     
-    // donut line color
+    // donut line color 
+    // this one looks a little different due to the animation
+    // because i needed to call the variable in another function
+    // i declared the variable at the top of the sketch
     const donutLine = new THREE.MeshBasicMaterial( { color: 0x000000, wireframe: true } );
     torusLine = new THREE.Mesh( donut, donutLine ); 
     torusLine.position.z = -250;
@@ -213,23 +216,9 @@ function init() {
     knotShape.position.z = -300;
     knotShape.position.y = 50;
     scene.add( knotShape );
-    
-    // Grouping of trees
-    const geometry = new THREE.ConeGeometry(10, 60, 8, 1);
-    const material = new THREE.MeshPhongMaterial({ color: 0x14401e, flatShading: true });
-    const mesh = new THREE.InstancedMesh(geometry, material, 500);
-    const tree = new THREE.Object3D();
-    for (let i = 0; i < 75; i++) {
-        tree.position.x = Math.random() * 250 - 125;
-        tree.position.y = 0;
-        tree.position.z = Math.random() * 250 - 125;
-        tree.updateMatrix();
-        mesh.setMatrixAt(i, tree.matrix);
-    }
-    scene.add(mesh);
 
     // Ground
-    const earth = new THREE.PlaneGeometry(2000, 2000);
+    const earth = new THREE.PlaneGeometry(4000, 4000);
     const ground = new THREE.MeshPhongMaterial({ color: 0x402314, flatShading: true });
     const mesh2 = new THREE.InstancedMesh(earth, ground, 500);
     mesh2.translateY(-60);
