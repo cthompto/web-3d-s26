@@ -153,7 +153,7 @@ function init() {
     // End First Person Controls
 
     // Add world geometry
-    
+
     // text
 
     materials = [
@@ -184,7 +184,6 @@ function init() {
     const imgGeometry = new THREE.PlaneGeometry(400, 300);
     const imgPlane = new THREE.Mesh(imgGeometry, imgMaterial);
     imgPlane.position.set(0, 100, -400);
-    //planeI5.rotation.set(1.5708, 0, 0);
     scene.add(imgPlane);
 
     // Ground

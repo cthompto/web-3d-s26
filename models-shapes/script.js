@@ -30,6 +30,7 @@ let prevTime = performance.now();
 const velocity = new THREE.Vector3();
 const direction = new THREE.Vector3();
 
+// text variables
 let font;
 let text = "March 26 Demo";
 let textGeo;
@@ -58,17 +59,6 @@ function init() {
     // Setup camera
     camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 1000);
     camera.position.set(0, 10, 0);
-
-    // Setup Orbit Controls
-    //controls = new OrbitControls( camera, renderer.domElement );
-    //controls.listenToKeyEvents( window );
-    //controls.enableDamping = true;
-    //controls.dampingFactor = 0.05;
-    //controls.screenSpacePanning = false;
-    //controls.minDistance = 100;
-    //controls.maxDistance = 500;
-    //controls.cursorStyle = 'grab';
-    //controls.maxPolarAngle = Math.PI / 2;
 
     // Setup First Person Controls
     // DO NOT TOUCH
@@ -178,14 +168,12 @@ function init() {
     // model
 
     // material for model
-    var newMaterial = new THREE.MeshStandardMaterial({ color: 0x2E5939 }); 
-    
     var newMat = new THREE.MeshPhongMaterial({
-        color: 0x00C00f,
+        color: 0x00c00f,
         specular: 0xbbbbbb,
         shininess: 100
     });
-    
+
     // Load GLTF model, add material, and add it to the scene
     const loader2 = new GLTFLoader().load(
         "./fog_block_1.glb",

@@ -1,4 +1,4 @@
-// Basic Three.js Example
+// Fonts and Materials Three.js Example
 // Chelsea Thompto - Spring 2026
 
 // Three.js uses an import map to add features.
@@ -8,12 +8,11 @@
 // The main library script
 import * as THREE from "three";
 
-// The plug-in for orbit controls
-import { OrbitControls } from "./src/OrbitControls.js";
-import { FontLoader } from "./src/FontLoader.js";
 
-// The plug-in for First Person Controls
+
+// The plug-ins
 import { PointerLockControls } from "./src/PointerLockControls.js";
+import { FontLoader } from "./src/FontLoader.js";
 
 // Declaring global variables.
 let camera, canvas, controls, scene, renderer;
@@ -52,17 +51,6 @@ function init() {
     // Setup camera
     camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 1000);
     camera.position.set(0, 10, 0);
-
-    // Setup Orbit Controls
-    //controls = new OrbitControls( camera, renderer.domElement );
-    //controls.listenToKeyEvents( window );
-    //controls.enableDamping = true;
-    //controls.dampingFactor = 0.05;
-    //controls.screenSpacePanning = false;
-    //controls.minDistance = 100;
-    //controls.maxDistance = 500;
-    //controls.cursorStyle = 'grab';
-    //controls.maxPolarAngle = Math.PI / 2;
 
     // Setup First Person Controls
     // DO NOT TOUCH
@@ -148,8 +136,15 @@ function init() {
 
     // End First Person Controls
 
+    // Add world geometry
+
+    
     // Add font and text
+    
+    // establish font loader
     const loader = new FontLoader();
+    
+    // run font loader with desired json font
     loader.load("./Public Sans_Bold.json", function (font) {
         // create color and material
         const color = 0x006699;
@@ -182,10 +177,8 @@ function init() {
         text.position.y = 50;
         scene.add(text);
     });
-
-    // Add world geometry
-
-    // March 24 example material and object
+    
+    // Shapes and materials
     
     // donut shape
     const donut = new THREE.TorusGeometry( 50, 20, 16, 100 );
@@ -274,6 +267,7 @@ function animate() {
     prevTime = time;
     // End First Person Control Animations
 
+    // line for rotating wireframe
     torusLine.rotation.z += 0.001;
     
     render();
