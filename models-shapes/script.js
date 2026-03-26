@@ -13,6 +13,7 @@ import { PointerLockControls } from "./src/PointerLockControls.js";
 import { Font } from "./src/FontLoader.js";
 import { TTFLoader } from "./src/TTFLoader.js";
 import { TextGeometry } from "./src/TextGeometry.js";
+import { GLTFLoader } from "./src/GLTFLoader.js";
 
 // Declaring global variables.
 let camera, canvas, controls, scene, renderer;
@@ -36,6 +37,7 @@ let materials;
 let textMesh1;
 let textMesh2;
 let group;
+let mesh;
 
 // Run the "init" function which is like "setup" in p5.
 init();
@@ -153,7 +155,7 @@ function init() {
     // End First Person Controls
 
     // Add world geometry
-    
+
     // text
 
     materials = [
@@ -173,19 +175,39 @@ function init() {
 
     scene.add(group);
 
-    // image
+    // model
 
-    const imgSource = new THREE.TextureLoader().load("./cab-curio-1.jpg");
-    const imgMaterial = new THREE.MeshBasicMaterial({
-        map: imgSource,
-        side: THREE.DoubleSide,
-        transparent: true
+    // material for model
+    var newMaterial = new THREE.MeshStandardMaterial({ color: 0x2E5939 }); 
+    
+    var newMat = new THREE.MeshPhongMaterial({
+        color: 0x00C00f,
+        specular: 0xbbbbbb,
+        shininess: 100
     });
-    const imgGeometry = new THREE.PlaneGeometry(400, 300);
-    const imgPlane = new THREE.Mesh(imgGeometry, imgMaterial);
-    imgPlane.position.set(0, 100, -400);
-    //planeI5.rotation.set(1.5708, 0, 0);
-    scene.add(imgPlane);
+    
+    // Load GLTF model, add material, and add it to the scene
+    const loader2 = new GLTFLoader().load(
+        "./fog_block_1.glb",
+        function (gltf) {
+            // Scan loaded model for mesh and apply defined material if mesh is present
+            gltf.scene.traverse(function (child) {
+                if (child.isMesh) {
+                    child.material = newMat;
+                }
+            });
+            // set position and scale
+            mesh = gltf.scene;
+            mesh.position.set(-15, -15, -100);
+            mesh.scale.set(0.4, 0.4, 0.4);
+            // Add model to scene
+            scene.add(mesh);
+        },
+        undefined,
+        function (error) {
+            console.error(error);
+        }
+    );
 
     // Ground
     const earth = new THREE.PlaneGeometry(4000, 4000);
