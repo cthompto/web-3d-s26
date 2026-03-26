@@ -1,4 +1,4 @@
-// Basic Three.js Example
+// Images and 3D Font Example Three.js Example
 // Chelsea Thompto - Spring 2026
 
 // Three.js uses an import map to add features.
@@ -8,7 +8,7 @@
 // The main library script
 import * as THREE from "three";
 
-// The plug-in for First Person Controls
+// The plug-ins
 import { PointerLockControls } from "./src/PointerLockControls.js";
 import { Font } from "./src/FontLoader.js";
 import { TTFLoader } from "./src/TTFLoader.js";
@@ -56,17 +56,6 @@ function init() {
     // Setup camera
     camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 1000);
     camera.position.set(0, 10, 0);
-
-    // Setup Orbit Controls
-    //controls = new OrbitControls( camera, renderer.domElement );
-    //controls.listenToKeyEvents( window );
-    //controls.enableDamping = true;
-    //controls.dampingFactor = 0.05;
-    //controls.screenSpacePanning = false;
-    //controls.minDistance = 100;
-    //controls.maxDistance = 500;
-    //controls.cursorStyle = 'grab';
-    //controls.maxPolarAngle = Math.PI / 2;
 
     // Setup First Person Controls
     // DO NOT TOUCH
@@ -156,18 +145,23 @@ function init() {
 
     // text
 
+    // materials for the text
     materials = [
-        new THREE.MeshPhongMaterial({ color: 0xffffff, flatShading: true }), // front
-        new THREE.MeshPhongMaterial({ color: 0xffffff }) // side
+        new THREE.MeshPhongMaterial({ color: 0x10b10c, flatShading: true }), // front
+        new THREE.MeshPhongMaterial({ color: 0x0c9909 }) // side
     ];
 
+    // establish font loader
     const loader = new TTFLoader();
 
+    // use loader with desired ttf font
     loader.load("./CourierPrime-Bold.ttf", function (json) {
         font = new Font(json);
+        // see create text function below
         createText();
     });
 
+    // add resulting shapes to scene
     group = new THREE.Group();
     group.position.y = 100;
 
@@ -175,13 +169,17 @@ function init() {
 
     // image
 
+    // load image as a texture
     const imgSource = new THREE.TextureLoader().load("./cab-curio-1.jpg");
+    // use loaded testure in a material
     const imgMaterial = new THREE.MeshBasicMaterial({
         map: imgSource,
         side: THREE.DoubleSide,
         transparent: true
     });
+    // create image shape (should be the same aspect ratio as the image)
     const imgGeometry = new THREE.PlaneGeometry(400, 300);
+    // apply image to shape and add to scene
     const imgPlane = new THREE.Mesh(imgGeometry, imgMaterial);
     imgPlane.position.set(0, 100, -400);
     scene.add(imgPlane);
@@ -251,8 +249,10 @@ function render() {
     renderer.render(scene, camera);
 }
 
-//
+// Function to generate text shapes
 function createText() {
+    // create geomtery with parameters, change parameters to test modifications
+    // "text" on next line is the message to be written
     textGeo = new TextGeometry(text, {
         font: font,
         size: 20,
@@ -263,18 +263,20 @@ function createText() {
         bevelEnabled: true
     });
 
+    // finish making geometry
     textGeo.computeBoundingBox();
-
     const centerOffset = -0.5 * (textGeo.boundingBox.max.x - textGeo.boundingBox.min.x);
 
+    // apply material to geometry
     textMesh1 = new THREE.Mesh(textGeo, materials);
 
+    // set position and rotation
     textMesh1.position.x = centerOffset;
     textMesh1.position.z = -200;
     textMesh1.position.y = -100;
-
     textMesh1.rotation.x = 0;
     textMesh1.rotation.y = Math.PI * 2;
 
+    // add to group to be added to scene
     group.add(textMesh1);
 }
