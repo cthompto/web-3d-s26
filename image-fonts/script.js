@@ -174,8 +174,7 @@ function init() {
     // use loaded testure in a material
     const imgMaterial = new THREE.MeshBasicMaterial({
         map: imgSource,
-        side: THREE.DoubleSide,
-        transparent: true
+        side: THREE.DoubleSide
     });
     // create image shape (should be the same aspect ratio as the image)
     const imgGeometry = new THREE.PlaneGeometry(400, 300);
@@ -201,8 +200,8 @@ function init() {
     dirLight2.position.set(-1, -1, -1);
     scene.add(dirLight2);
 
-    const ambientLight = new THREE.AmbientLight(0x555555);
-    scene.add(ambientLight);
+    //const ambientLight = new THREE.AmbientLight(0x555555);
+    //scene.add(ambientLight);
 }
 
 // Function to update moving objects, in this case the camera.
