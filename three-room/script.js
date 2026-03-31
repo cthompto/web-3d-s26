@@ -30,7 +30,7 @@ const velocity = new THREE.Vector3();
 const direction = new THREE.Vector3();
 
 let font;
-let text = "March 26 Demo";
+let text = "Room Demo";
 let textGeo;
 let materials;
 let textMesh1;
@@ -142,6 +142,16 @@ function init() {
     // End First Person Controls
 
     // Add world geometry
+
+    // room material
+    const wall = new THREE.MeshPhongMaterial({ color: 0xbbb2b9 });
+    
+    //
+    // back wall
+    const shortWall = new THREE.BoxGeometry(300, 200, 10);
+    const backWall = new THREE.Mesh(shortWall, wall);
+    backWall.position.set(0, 0, -250);
+    scene.add(backWall);
 
     // text
 
