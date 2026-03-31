@@ -146,13 +146,45 @@ function init() {
     // room material
     const wall = new THREE.MeshPhongMaterial({ color: 0xbbb2b9 });
     
-    //
     // back wall
     const shortWall = new THREE.BoxGeometry(300, 200, 10);
     const backWall = new THREE.Mesh(shortWall, wall);
     backWall.position.set(0, 0, -250);
     scene.add(backWall);
-
+    
+    // side walls
+    const longWall = new THREE.BoxGeometry(10, 200, 510);
+    const leftWall = new THREE.Mesh(longWall, wall);
+    leftWall.position.set(-150, 0, 0);
+    scene.add(leftWall);
+    
+    const rightWall = new THREE.Mesh(longWall, wall);
+    rightWall.position.set(150, 0, 0);
+    scene.add(rightWall);
+    
+    // front walls
+    const frontSide = new THREE.BoxGeometry(100,125,10);
+    const frontLeft = new THREE.Mesh(frontSide, wall);
+    frontLeft.position.set(-100, -20, 250);
+    scene.add(frontLeft);
+    
+    const frontRight = new THREE.Mesh(frontSide, wall);
+    frontRight.position.set(100, -20, 250);
+    scene.add(frontRight);
+    
+    const frontTop = new THREE.BoxGeometry(300, 57.5, 10);
+    const frontMiddle = new THREE.Mesh(frontTop, wall);
+    frontMiddle.position.set(0,70,250);
+    scene.add(frontMiddle);
+    
+    // ceiling
+    
+    const cielingMat = new THREE.MeshPhongMaterial({ color: 0x5bf3fd });
+    const cielingShape = new THREE.BoxGeometry(300,10,500);
+    const cielingMain = new THREE.Mesh(cielingShape, cielingMat);
+    cielingMain.position.set(0,100,0);
+    scene.add(cielingMain);
+    
     // text
 
     // materials for the text
@@ -197,7 +229,7 @@ function init() {
     const earth = new THREE.PlaneGeometry(4000, 4000);
     const ground = new THREE.MeshPhongMaterial({ color: 0xe10dee, flatShading: true });
     const mesh2 = new THREE.InstancedMesh(earth, ground, 500);
-    mesh2.translateY(-60);
+    mesh2.translateY(-80);
     mesh2.rotateX(-1.5708);
     scene.add(mesh2);
 
@@ -289,3 +321,4 @@ function createText() {
     // add to group to be added to scene
     group.add(textMesh1);
 }
+
