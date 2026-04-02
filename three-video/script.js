@@ -172,6 +172,9 @@ function init() {
 
     // video
 
+    // video is included in the HTML but is not visible.
+    // look at the index.html in this folder.
+    
     // load video from HTML and apply to texture
     video = document.getElementById("video");
     video.addEventListener("play", function () {
@@ -179,8 +182,8 @@ function init() {
     });
     vidTexture = new THREE.VideoTexture(video);
     vidTexture.colorSpace = THREE.SRGBColorSpace;
-    const vidMaterial = new THREE.MeshBasicMaterial( { map: vidTexture } );
-    
+    const vidMaterial = new THREE.MeshBasicMaterial({ map: vidTexture });
+
     // create video screen shape
     const vidGeometry = new THREE.PlaneGeometry(170.8, 96);
     // apply image to shape and add to scene
@@ -204,9 +207,6 @@ function init() {
     const dirLight2 = new THREE.DirectionalLight(0xffffff, 2);
     dirLight2.position.set(-1, -1, -1);
     scene.add(dirLight2);
-
-    //const ambientLight = new THREE.AmbientLight(0x555555);
-    //scene.add(ambientLight);
 }
 
 // Function to update moving objects, in this case the camera.
