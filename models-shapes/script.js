@@ -9,11 +9,11 @@
 import * as THREE from "three";
 
 // The plug-in for First Person Controls
-import { PointerLockControls } from "./src/PointerLockControls.js";
-import { Font } from "./src/FontLoader.js";
-import { TTFLoader } from "./src/TTFLoader.js";
-import { TextGeometry } from "./src/TextGeometry.js";
-import { GLTFLoader } from "./src/GLTFLoader.js";
+import { PointerLockControls } from "../src/PointerLockControls.js";
+import { Font } from "../src/FontLoader.js";
+import { TTFLoader } from "../src/TTFLoader.js";
+import { TextGeometry } from "../src/TextGeometry.js";
+import { GLTFLoader } from "../src/GLTFLoader.js";
 
 // Declaring global variables.
 let camera, canvas, controls, scene, renderer;
@@ -32,7 +32,7 @@ const direction = new THREE.Vector3();
 
 // text variables
 let font;
-let text = "March 26 Demo";
+let text = "Model Loading Demo";
 let textGeo;
 let materials;
 let textMesh1;
@@ -155,7 +155,7 @@ function init() {
 
     const loader = new TTFLoader();
 
-    loader.load("./CourierPrime-Bold.ttf", function (json) {
+    loader.load("../assets/CourierPrime-Bold.ttf", function (json) {
         font = new Font(json);
         createText();
     });
@@ -176,7 +176,7 @@ function init() {
 
     // Load GLTF model, add material, and add it to the scene
     const loader2 = new GLTFLoader().load(
-        "./fog_block_1.glb",
+        "../assets/fog_block_1.glb",
         function (gltf) {
             // Scan loaded model for mesh and apply defined material if mesh is present
             gltf.scene.traverse(function (child) {
@@ -186,7 +186,7 @@ function init() {
             });
             // set position and scale
             mesh = gltf.scene;
-            mesh.position.set(-15, -15, -100);
+            mesh.position.set(-20, -15, -50);
             mesh.scale.set(0.4, 0.4, 0.4);
             // Add model to scene
             scene.add(mesh);
@@ -281,7 +281,7 @@ function createText() {
     textMesh1 = new THREE.Mesh(textGeo, materials);
 
     textMesh1.position.x = centerOffset;
-    textMesh1.position.z = -200;
+    textMesh1.position.z = -150;
     textMesh1.position.y = -100;
 
     textMesh1.rotation.x = 0;
