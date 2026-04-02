@@ -196,7 +196,7 @@ function init() {
     const loader = new TTFLoader();
 
     // use loader with desired ttf font
-    loader.load("./CourierPrime-Bold.ttf", function (json) {
+    loader.load("../assets/CourierPrime-Bold.ttf", function (json) {
         font = new Font(json);
         // see create text function below
         createText();
@@ -208,10 +208,10 @@ function init() {
 
     scene.add(group);
 
-    // image
+    // image 
 
     // load image as a texture
-    const imgSource = new THREE.TextureLoader().load("./cab-curio-1.jpg");
+    const imgSource = new THREE.TextureLoader().load("../assets/cab-curio-1.jpg");
     // use loaded testure in a material
     const imgMaterial = new THREE.MeshBasicMaterial({
         map: imgSource,

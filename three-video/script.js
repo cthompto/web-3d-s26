@@ -158,9 +158,9 @@ function init() {
     const loader = new TTFLoader();
 
     // use loader with desired ttf font
-    loader.load("./CourierPrime-Bold.ttf", function (json) {
+    loader.load("../assets/CourierPrime-Bold.ttf", function (json) {
         font = new Font(json);
-        // see create text function below
+        // see create text function below 
         createText();
     });
 
