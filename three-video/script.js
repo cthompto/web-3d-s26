@@ -172,8 +172,10 @@ function init() {
 
     // video
 
-    // video is included in the HTML but is not visible.
+    // Video is included in the HTML but is not visible.
     // look at the index.html in this folder.
+    // 
+    // Added a play command to the event listener staring on line 70
     
     // load video from HTML and apply to texture
     video = document.getElementById("video");
