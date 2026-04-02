@@ -9,12 +9,12 @@
 import * as THREE from "three";
 
 // The plug-ins
-import { PointerLockControls } from "./src/PointerLockControls.js";
-import { Font } from "./src/FontLoader.js";
-import { TTFLoader } from "./src/TTFLoader.js";
-import { TextGeometry } from "./src/TextGeometry.js";
+import { PointerLockControls } from "../src/PointerLockControls.js";
+import { Font } from "../src/FontLoader.js";
+import { TTFLoader } from "../src/TTFLoader.js";
+import { TextGeometry } from "../src/TextGeometry.js";
 
-// Declaring global variables.
+// Declaring global variables. 
 let camera, canvas, controls, scene, renderer;
 
 // Variables for First Person Controls
@@ -155,7 +155,7 @@ function init() {
     const loader = new TTFLoader();
 
     // use loader with desired ttf font
-    loader.load("./CourierPrime-Bold.ttf", function (json) {
+    loader.load("../assets/CourierPrime-Bold.ttf", function (json) {
         font = new Font(json);
         // see create text function below
         createText();
@@ -170,7 +170,7 @@ function init() {
     // image
 
     // load image as a texture
-    const imgSource = new THREE.TextureLoader().load("./cab-curio-1.jpg");
+    const imgSource = new THREE.TextureLoader().load("../assets/cab-curio-1.jpg");
     // use loaded testure in a material
     const imgMaterial = new THREE.MeshBasicMaterial({
         map: imgSource,
@@ -180,7 +180,7 @@ function init() {
     const imgGeometry = new THREE.PlaneGeometry(400, 300);
     // apply image to shape and add to scene
     const imgPlane = new THREE.Mesh(imgGeometry, imgMaterial);
-    imgPlane.position.set(0, 100, -400);
+    imgPlane.position.set(0, 100, -200);
     scene.add(imgPlane);
 
     // Ground
@@ -200,8 +200,8 @@ function init() {
     dirLight2.position.set(-1, -1, -1);
     scene.add(dirLight2);
 
-    //const ambientLight = new THREE.AmbientLight(0x555555);
-    //scene.add(ambientLight);
+    const ambientLight = new THREE.AmbientLight(0x555555);
+    scene.add(ambientLight);
 }
 
 // Function to update moving objects, in this case the camera.

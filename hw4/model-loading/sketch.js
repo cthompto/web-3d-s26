@@ -1,6 +1,6 @@
 let myShape;
 function preload() {
-  myShape = loadModel('./fog_block_1.obj', true);
+  myShape = loadModel('../../assets/fog_block_1.obj', true);
 }
 
 function setup() {

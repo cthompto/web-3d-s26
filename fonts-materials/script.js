@@ -8,11 +8,9 @@
 // The main library script
 import * as THREE from "three";
 
-
-
 // The plug-ins
-import { PointerLockControls } from "./src/PointerLockControls.js";
-import { FontLoader } from "./src/FontLoader.js";
+import { PointerLockControls } from "../src/PointerLockControls.js";
+import { FontLoader } from "../src/FontLoader.js";
 
 // Declaring global variables.
 let camera, canvas, controls, scene, renderer;
@@ -29,7 +27,7 @@ let prevTime = performance.now();
 const velocity = new THREE.Vector3();
 const direction = new THREE.Vector3();
 
-// march 24 variables 
+// march 24 variables
 let torusLine;
 
 // Run the "init" function which is like "setup" in p5.
@@ -43,7 +41,6 @@ function init() {
     scene.background = new THREE.Color(0xbfeff5);
     scene.fog = new THREE.FogExp2(0xbfeff5, 0.0015);
     renderer = new THREE.WebGLRenderer({ antialias: true });
-    //renderer.setPixelRatio( window.devicePixelRatio );
     renderer.setSize(innerWidth, innerHeight);
     renderer.setAnimationLoop(animate);
     canvas.appendChild(renderer.domElement);
@@ -138,14 +135,13 @@ function init() {
 
     // Add world geometry
 
-    
     // Add font and text
-    
+
     // establish font loader
     const loader = new FontLoader();
-    
+
     // run font loader with desired json font
-    loader.load("./Public Sans_Bold.json", function (font) {
+    loader.load("../assets/Public Sans_Bold.json", function (font) {
         // create color and material
         const color = 0x006699;
         const matDark = new THREE.LineBasicMaterial({
@@ -160,13 +156,13 @@ function init() {
         });
 
         // create message
-        const message = "March 24th Demo";
-        
+        const message = "Font and Material Demo 1";
+
         // generate text shapes
         const shapes = font.generateShapes(message, 30);
         const fontGeo = new THREE.ShapeGeometry(shapes);
         fontGeo.computeBoundingBox();
-        
+
         // center alignment
         const xMid = -0.5 * (fontGeo.boundingBox.max.x - fontGeo.boundingBox.min.x);
         fontGeo.translate(xMid, 0, 0);
@@ -177,38 +173,38 @@ function init() {
         text.position.y = 50;
         scene.add(text);
     });
-    
+
     // Shapes and materials
-    
+
     // donut shape
-    const donut = new THREE.TorusGeometry( 50, 20, 16, 100 );
-    
+    const donut = new THREE.TorusGeometry(50, 20, 16, 100);
+
     // donut solid color
-    const donutMaterial = new THREE.MeshBasicMaterial( { color: 0xffff00 } );
-    const torus = new THREE.Mesh( donut, donutMaterial );
+    const donutMaterial = new THREE.MeshBasicMaterial({ color: 0xffff00 });
+    const torus = new THREE.Mesh(donut, donutMaterial);
     torus.position.z = -250;
     torus.position.y = 50;
-    scene.add( torus );
-    
-    // donut line color 
+    scene.add(torus);
+
+    // donut line color
     // this one looks a little different due to the animation
     // because i needed to call the variable in another function
     // i declared the variable at the top of the sketch
-    const donutLine = new THREE.MeshBasicMaterial( { color: 0x000000, wireframe: true } );
-    torusLine = new THREE.Mesh( donut, donutLine ); 
+    const donutLine = new THREE.MeshBasicMaterial({ color: 0x000000, wireframe: true });
+    torusLine = new THREE.Mesh(donut, donutLine);
     torusLine.position.z = -250;
     torusLine.position.y = 50;
-    scene.add( torusLine );
-    
+    scene.add(torusLine);
+
     // torus knot shape
-    const coolShape = new THREE.TorusKnotGeometry( 10, 3, 100, 16 );
-    
+    const coolShape = new THREE.TorusKnotGeometry(10, 3, 100, 16);
+
     // torus knot color
-    const knotColor = new THREE.MeshPhongMaterial( {color: 0x7f01a2} );
-    const knotShape = new THREE.Mesh( coolShape, knotColor );
+    const knotColor = new THREE.MeshPhongMaterial({ color: 0x7f01a2 });
+    const knotShape = new THREE.Mesh(coolShape, knotColor);
     knotShape.position.z = -300;
     knotShape.position.y = 50;
-    scene.add( knotShape );
+    scene.add(knotShape);
 
     // Ground
     const earth = new THREE.PlaneGeometry(4000, 4000);
@@ -269,7 +265,7 @@ function animate() {
 
     // line for rotating wireframe
     torusLine.rotation.z += 0.001;
-    
+
     render();
 }
 
