@@ -1,4 +1,4 @@
-// Images and 3D Font Example Three.js Example
+// Room Example Three.js Example
 // Chelsea Thompto - Spring 2026
 
 // Three.js uses an import map to add features.
@@ -9,10 +9,10 @@
 import * as THREE from "three";
 
 // The plug-ins
-import { PointerLockControls } from "./src/PointerLockControls.js";
-import { Font } from "./src/FontLoader.js";
-import { TTFLoader } from "./src/TTFLoader.js";
-import { TextGeometry } from "./src/TextGeometry.js";
+import { PointerLockControls } from "../src/PointerLockControls.js";
+import { Font } from "../src/FontLoader.js";
+import { TTFLoader } from "../src/TTFLoader.js";
+import { TextGeometry } from "../src/TextGeometry.js";
 
 // Declaring global variables.
 let camera, canvas, controls, scene, renderer;
@@ -24,11 +24,11 @@ let moveBackward = false;
 let moveLeft = false;
 let moveRight = false;
 let canJump = true;
-
 let prevTime = performance.now();
 const velocity = new THREE.Vector3();
 const direction = new THREE.Vector3();
 
+// Variables for Room
 let font;
 let text = "Room Demo";
 let textGeo;
@@ -48,7 +48,6 @@ function init() {
     scene.background = new THREE.Color(0xbfeff5);
     scene.fog = new THREE.FogExp2(0xbfeff5, 0.0015);
     renderer = new THREE.WebGLRenderer({ antialias: true });
-    //renderer.setPixelRatio( window.devicePixelRatio );
     renderer.setSize(innerWidth, innerHeight);
     renderer.setAnimationLoop(animate);
     canvas.appendChild(renderer.domElement);
@@ -144,53 +143,53 @@ function init() {
     // Add world geometry
 
     // room material
-    const wall = new THREE.MeshPhongMaterial({ color: 0xbbb2b9 });
-    
+    const wall = new THREE.MeshPhongMaterial({ color: 0xd7d5d6 });
+
     // back wall
     const shortWall = new THREE.BoxGeometry(300, 200, 10);
     const backWall = new THREE.Mesh(shortWall, wall);
     backWall.position.set(0, 0, -250);
     scene.add(backWall);
-    
+
     // side walls
     const longWall = new THREE.BoxGeometry(10, 200, 510);
     const leftWall = new THREE.Mesh(longWall, wall);
     leftWall.position.set(-150, 0, 0);
     scene.add(leftWall);
-    
+
     const rightWall = new THREE.Mesh(longWall, wall);
     rightWall.position.set(150, 0, 0);
     scene.add(rightWall);
-    
+
     // front walls
-    const frontSide = new THREE.BoxGeometry(100,125,10);
+    const frontSide = new THREE.BoxGeometry(100, 125, 10);
     const frontLeft = new THREE.Mesh(frontSide, wall);
     frontLeft.position.set(-100, -20, 250);
     scene.add(frontLeft);
-    
+
     const frontRight = new THREE.Mesh(frontSide, wall);
     frontRight.position.set(100, -20, 250);
     scene.add(frontRight);
-    
+
     const frontTop = new THREE.BoxGeometry(300, 57.5, 10);
     const frontMiddle = new THREE.Mesh(frontTop, wall);
-    frontMiddle.position.set(0,70,250);
+    frontMiddle.position.set(0, 70, 250);
     scene.add(frontMiddle);
-    
+
     // ceiling
-    
-    const cielingMat = new THREE.MeshPhongMaterial({ color: 0x5bf3fd });
-    const cielingShape = new THREE.BoxGeometry(300,10,500);
+
+    const cielingMat = new THREE.MeshPhongMaterial({ color: 0x874c14 });
+    const cielingShape = new THREE.BoxGeometry(350, 10, 550);
     const cielingMain = new THREE.Mesh(cielingShape, cielingMat);
-    cielingMain.position.set(0,100,0);
+    cielingMain.position.set(0, 100, 0);
     scene.add(cielingMain);
-    
+
     // text
 
     // materials for the text
     materials = [
-        new THREE.MeshPhongMaterial({ color: 0x10b10c, flatShading: true }), // front
-        new THREE.MeshPhongMaterial({ color: 0x0c9909 }) // side
+        new THREE.MeshPhongMaterial({ color: 0x303030, flatShading: true }), // front
+        new THREE.MeshPhongMaterial({ color: 0x131313 }) // side
     ];
 
     // establish font loader
@@ -219,10 +218,10 @@ function init() {
         side: THREE.DoubleSide
     });
     // create image shape (should be the same aspect ratio as the image)
-    const imgGeometry = new THREE.PlaneGeometry(400, 300);
+    const imgGeometry = new THREE.PlaneGeometry(160, 120);
     // apply image to shape and add to scene
     const imgPlane = new THREE.Mesh(imgGeometry, imgMaterial);
-    imgPlane.position.set(0, 100, -400);
+    imgPlane.position.set(0, 10, -244.9);
     scene.add(imgPlane);
 
     // Ground
@@ -242,8 +241,8 @@ function init() {
     dirLight2.position.set(-1, -1, -1);
     scene.add(dirLight2);
 
-    //const ambientLight = new THREE.AmbientLight(0x555555);
-    //scene.add(ambientLight);
+    const ambientLight = new THREE.AmbientLight(0x555555);
+    scene.add(ambientLight);
 }
 
 // Function to update moving objects, in this case the camera.
@@ -312,13 +311,12 @@ function createText() {
     textMesh1 = new THREE.Mesh(textGeo, materials);
 
     // set position and rotation
-    textMesh1.position.x = centerOffset;
-    textMesh1.position.z = -200;
+    textMesh1.position.x = centerOffset-70;
+    textMesh1.position.z = -90;
     textMesh1.position.y = -100;
-    textMesh1.rotation.x = 0;
-    textMesh1.rotation.y = Math.PI * 2;
+    //textMesh1.rotation.z = 1.5708;
+    textMesh1.rotation.y = 1.5708;
 
     // add to group to be added to scene
     group.add(textMesh1);
 }
-

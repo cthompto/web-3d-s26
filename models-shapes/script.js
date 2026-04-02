@@ -1,4 +1,4 @@
-// Basic Three.js Example
+// 3D Model Three.js Example
 // Chelsea Thompto - Spring 2026
 
 // Three.js uses an import map to add features.

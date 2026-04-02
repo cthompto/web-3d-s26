@@ -1,4 +1,4 @@
-// Images and 3D Font Example Three.js Example
+// Video Example Three.js Example
 // Chelsea Thompto - Spring 2026
 
 // Three.js uses an import map to add features.
@@ -9,10 +9,10 @@
 import * as THREE from "three";
 
 // The plug-ins
-import { PointerLockControls } from "./src/PointerLockControls.js";
-import { Font } from "./src/FontLoader.js";
-import { TTFLoader } from "./src/TTFLoader.js";
-import { TextGeometry } from "./src/TextGeometry.js";
+import { PointerLockControls } from "../src/PointerLockControls.js";
+import { Font } from "../src/FontLoader.js";
+import { TTFLoader } from "../src/TTFLoader.js";
+import { TextGeometry } from "../src/TextGeometry.js";
 
 // Declaring global variables.
 let camera, canvas, controls, scene, renderer;
@@ -24,11 +24,11 @@ let moveBackward = false;
 let moveLeft = false;
 let moveRight = false;
 let canJump = true;
-
 let prevTime = performance.now();
 const velocity = new THREE.Vector3();
 const direction = new THREE.Vector3();
 
+// Variables for scene objects
 let font;
 let text = "Video Demo";
 let textGeo;
@@ -50,7 +50,7 @@ function init() {
     scene.background = new THREE.Color(0xbfeff5);
     scene.fog = new THREE.FogExp2(0xbfeff5, 0.0015);
     renderer = new THREE.WebGLRenderer({ antialias: true });
-    //renderer.setPixelRatio( window.devicePixelRatio );
+    //renderer.setPixelRatio( window.devicePixelRatio ); 
     renderer.setSize(innerWidth, innerHeight);
     renderer.setAnimationLoop(animate);
     canvas.appendChild(renderer.domElement);
@@ -173,10 +173,10 @@ function init() {
     // video
 
     // Video is included in the HTML but is not visible.
-    // look at the index.html in this folder.
-    // 
+    // look at the index.html in this folder. 
+    //
     // Added a play command to the event listener staring on line 70
-    
+
     // load video from HTML and apply to texture
     video = document.getElementById("video");
     video.addEventListener("play", function () {

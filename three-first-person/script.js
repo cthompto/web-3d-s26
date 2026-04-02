@@ -1,4 +1,4 @@
-// Basic Three.js Example
+// First Person Three.js Example
 // Chelsea Thompto - Spring 2026
 
 // Three.js uses an import map to add features.
