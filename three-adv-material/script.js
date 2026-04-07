@@ -188,9 +188,9 @@ function init() {
     });
 
     const blueMat = new THREE.MeshPhysicalMaterial({
-        color: 0x0196ae,
+        color: 0x057182,
         emissive: 0x000000,
-        roughness: 1,
+        roughness: 0.5,
         metalness: 0
     });
 
