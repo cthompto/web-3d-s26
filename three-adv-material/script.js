@@ -13,6 +13,7 @@ import { PointerLockControls } from "../src/PointerLockControls.js";
 import { Font } from "../src/FontLoader.js";
 import { TTFLoader } from "../src/TTFLoader.js";
 import { TextGeometry } from "../src/TextGeometry.js";
+import { GLTFLoader } from "../src/GLTFLoader.js";
 
 // Declaring global variables.
 let camera, canvas, controls, scene, renderer;
@@ -30,14 +31,27 @@ const direction = new THREE.Vector3();
 
 // Variables for scene objects
 let font;
-let text = "Video Demo";
+let text = "Advanced Material Demo";
 let textGeo;
 let materials;
+let mesh;
 let textMesh1;
 let textMesh2;
 let group;
 let video;
 let vidTexture;
+
+// Geometeries
+
+const spatialObject = new THREE.TorusKnotGeometry(5, 1.5, 100, 16);
+const flatObject = new THREE.BoxGeometry(10, 20, 1);
+
+// variables for moving parts
+var knotBubble;
+var knotWire;
+var knotToon;
+var knotBlue;
+var knotMirror;
 
 // Run the "init" function which is like "setup" in p5.
 init();
@@ -47,11 +61,12 @@ function init() {
     // scene setup
     canvas = document.getElementById("3-holder");
     scene = new THREE.Scene();
-    scene.background = new THREE.Color(0xbfeff5);
-    scene.fog = new THREE.FogExp2(0xbfeff5, 0.0015);
+    //scene.background = new THREE.Color(0xbfeff5);
+    //scene.fog = new THREE.FogExp2(0xbfeff5, 0.0015);
     renderer = new THREE.WebGLRenderer({ antialias: true });
-    //renderer.setPixelRatio( window.devicePixelRatio ); 
+    //renderer.setPixelRatio( window.devicePixelRatio );
     renderer.setSize(innerWidth, innerHeight);
+    renderer.shadowMap.enabled = true;
     renderer.setAnimationLoop(animate);
     canvas.appendChild(renderer.domElement);
 
@@ -69,7 +84,6 @@ function init() {
 
     instructions.addEventListener("click", function () {
         controls.lock();
-        video.play();
     });
 
     controls.addEventListener("lock", function () {
@@ -144,7 +158,223 @@ function init() {
 
     // End First Person Controls
 
+    // environment map
+
+    const cubeloader = new THREE.CubeTextureLoader().setPath("../assets/SwedishRoyalCastle/");
+    const cubeTexture = cubeloader.load(["px.jpg", "nx.jpg", "py.jpg", "ny.jpg", "pz.jpg", "nz.jpg"]);
+    const reflectCube = cubeloader.load(["px.jpg", "nx.jpg", "py.jpg", "ny.jpg", "pz.jpg", "nz.jpg"]);
+    const refractCube = cubeloader.load(["px.jpg", "nx.jpg", "py.jpg", "ny.jpg", "pz.jpg", "nz.jpg"]);
+    refractCube.mapping = THREE.CubeRefractionMapping;
+    reflectCube.mapping = THREE.CubeReflectionMapping;
+    scene.background = cubeTexture;
+
     // Add world geometry
+
+    // Sample Materials
+
+    const mirrorMat = new THREE.MeshPhysicalMaterial({
+        color: 0xffffff,
+        emissive: 0x000000,
+        roughness: 0,
+        metalness: 1,
+        transmission: 0,
+        envMap: reflectCube
+    });
+
+    const bubbleMat = new THREE.MeshPhysicalMaterial({
+        color: 0xffffff,
+        emissive: 0x000000,
+        roughness: 0,
+        metalness: 0,
+        transmission: 1,
+        ior: 1.25,
+        thickness: 2,
+        envMap: refractCube
+    });
+
+    const blueMat = new THREE.MeshPhysicalMaterial({
+        color: 0x0196ae,
+        emissive: 0x000000,
+        roughness: 1,
+        metalness: 0
+    });
+
+    const wireMat = new THREE.MeshBasicMaterial({
+        color: 0x7a02fd,
+        wireframe: true
+    });
+
+    const textureLoader = new THREE.TextureLoader();
+    const threeTone = textureLoader.load("../assets/gradientMaps/threeTone.jpg");
+    threeTone.minFilter = THREE.NearestFilter;
+    threeTone.magFilter = THREE.NearestFilter;
+
+    const fiveTone = textureLoader.load("../assets/gradientMaps/fiveTone.jpg");
+    fiveTone.minFilter = THREE.NearestFilter;
+    fiveTone.magFilter = THREE.NearestFilter;
+
+    const toonMat = new THREE.MeshToonMaterial({
+        color: 0xe2049a,
+        gradientMap: threeTone
+    });
+
+    // Center Standard Objects
+    const flatBlue = new THREE.Mesh(flatObject, blueMat);
+    flatBlue.position.set(0, 20, -50);
+    scene.add(flatBlue);
+
+    knotBlue = new THREE.Mesh(spatialObject, blueMat);
+    knotBlue.position.set(0, -10, -50);
+    scene.add(knotBlue);
+
+    // Load GLTF model, add material, and add it to the scene
+    const loader2 = new GLTFLoader().load(
+        "../assets/phone.glb",
+        function (gltf) {
+            // Scan loaded model for mesh and apply defined material if mesh is present
+            gltf.scene.traverse(function (child) {
+                if (child.isMesh) {
+                    //child.material = newMat;
+                }
+            });
+            // set position and scale
+            mesh = gltf.scene;
+            mesh.position.set(0, 0, -50);
+            mesh.scale.set(0.5, 0.5, 0.5);
+            // Add model to scene
+            scene.add(mesh);
+        },
+        undefined,
+        function (error) {
+            console.error(error);
+        }
+    );
+
+    // mirror
+    const flatMirror = new THREE.Mesh(flatObject, mirrorMat);
+    flatMirror.position.set(-30, 20, -50);
+    scene.add(flatMirror);
+
+    knotMirror = new THREE.Mesh(spatialObject, mirrorMat);
+    knotMirror.position.set(-30, -10, -50);
+    scene.add(knotMirror);
+
+    const loader3 = new GLTFLoader().load(
+        "../assets/phone.glb",
+        function (gltf) {
+            // Scan loaded model for mesh and apply defined material if mesh is present
+            gltf.scene.traverse(function (child) {
+                if (child.isMesh) {
+                    child.material = mirrorMat;
+                }
+            });
+            // set position and scale
+            mesh = gltf.scene;
+            mesh.position.set(-30, 0, -50);
+            mesh.scale.set(0.5, 0.5, 0.5);
+            // Add model to scene
+            scene.add(mesh);
+        },
+        undefined,
+        function (error) {
+            console.error(error);
+        }
+    );
+
+    // bubble
+
+    const flatBubble = new THREE.Mesh(flatObject, bubbleMat);
+    flatBubble.position.set(30, 20, -50);
+    scene.add(flatBubble);
+
+    knotBubble = new THREE.Mesh(spatialObject, bubbleMat);
+    knotBubble.position.set(30, -10, -50);
+    scene.add(knotBubble);
+
+    const loader4 = new GLTFLoader().load(
+        "../assets/phone.glb",
+        function (gltf) {
+            // Scan loaded model for mesh and apply defined material if mesh is present
+            gltf.scene.traverse(function (child) {
+                if (child.isMesh) {
+                    child.material = bubbleMat;
+                }
+            });
+            // set position and scale
+            mesh = gltf.scene;
+            mesh.position.set(30, 0, -50);
+            mesh.scale.set(0.5, 0.5, 0.5);
+            // Add model to scene
+            scene.add(mesh);
+        },
+        undefined,
+        function (error) {
+            console.error(error);
+        }
+    );
+
+    // wire
+
+    const flatWire = new THREE.Mesh(flatObject, wireMat);
+    flatWire.position.set(60, 20, -50);
+    scene.add(flatWire);
+
+    knotWire = new THREE.Mesh(spatialObject, wireMat);
+    knotWire.position.set(60, -10, -50);
+    scene.add(knotWire);
+
+    const loader5 = new GLTFLoader().load(
+        "../assets/phone.glb",
+        function (gltf) {
+            // Scan loaded model for mesh and apply defined material if mesh is present
+            gltf.scene.traverse(function (child) {
+                if (child.isMesh) {
+                    child.material = wireMat;
+                }
+            });
+            // set position and scale
+            mesh = gltf.scene;
+            mesh.position.set(60, 0, -50);
+            mesh.scale.set(0.5, 0.5, 0.5);
+            // Add model to scene
+            scene.add(mesh);
+        },
+        undefined,
+        function (error) {
+            console.error(error);
+        }
+    );
+
+    // toon
+    const flatToon = new THREE.Mesh(flatObject, toonMat);
+    flatToon.position.set(-60, 20, -50);
+    scene.add(flatToon);
+
+    knotToon = new THREE.Mesh(spatialObject, toonMat);
+    knotToon.position.set(-60, -10, -50);
+    scene.add(knotToon);
+
+    const loader6 = new GLTFLoader().load(
+        "../assets/phone.glb",
+        function (gltf) {
+            // Scan loaded model for mesh and apply defined material if mesh is present
+            gltf.scene.traverse(function (child) {
+                if (child.isMesh) {
+                    child.material = toonMat;
+                }
+            });
+            // set position and scale
+            mesh = gltf.scene;
+            mesh.position.set(-60, 0, -50);
+            mesh.scale.set(0.5, 0.5, 0.5);
+            // Add model to scene
+            scene.add(mesh);
+        },
+        undefined,
+        function (error) {
+            console.error(error);
+        }
+    );
 
     // text
 
@@ -160,7 +390,7 @@ function init() {
     // use loader with desired ttf font
     loader.load("../assets/CourierPrime-Bold.ttf", function (json) {
         font = new Font(json);
-        // see create text function below 
+        // see create text function below
         createText();
     });
 
@@ -170,45 +400,6 @@ function init() {
 
     scene.add(group);
 
-    // video
-
-    // Video is included in the HTML but is not visible.
-    // look at the index.html in this folder. 
-    //
-    // Added a play command to the event listener staring on line 70
-
-    // load video from HTML and apply to texture
-    video = document.getElementById("video");
-    video.addEventListener("play", function () {
-        this.currentTime = 0;
-    });
-    vidTexture = new THREE.VideoTexture(video);
-    vidTexture.colorSpace = THREE.SRGBColorSpace;
-    const vidMaterial = new THREE.MeshBasicMaterial({ map: vidTexture });
-
-    // create video screen shape
-    const vidGeometry = new THREE.PlaneGeometry(170.8, 96);
-    // apply image to shape and add to scene
-    const vidPlane = new THREE.Mesh(vidGeometry, vidMaterial);
-    vidPlane.position.set(0, 0, -100);
-    scene.add(vidPlane);
-    
-    // Sample Objects
-    
-    const spatialObject = new THREE.TorusKnotGeometry(10, 3, 100, 16);
-    const flatObject = new THREE.PlaneGeometry(50,100);
-    
-    // Sample Materials
-    
-
-    // Ground
-    const earth = new THREE.PlaneGeometry(4000, 4000);
-    const ground = new THREE.MeshPhongMaterial({ color: 0xe10dee, flatShading: true });
-    const mesh2 = new THREE.InstancedMesh(earth, ground, 500);
-    mesh2.translateY(-60);
-    mesh2.rotateX(-1.5708);
-    scene.add(mesh2);
-
     // lights
     const dirLight1 = new THREE.DirectionalLight(0xffffff, 3);
     dirLight1.position.set(1, 1, 1);
@@ -217,6 +408,9 @@ function init() {
     const dirLight2 = new THREE.DirectionalLight(0xffffff, 2);
     dirLight2.position.set(-1, -1, -1);
     scene.add(dirLight2);
+
+    const light = new THREE.AmbientLight(0xffffff); // soft white light
+    scene.add(light);
 }
 
 // Function to update moving objects, in this case the camera.
@@ -255,7 +449,21 @@ function animate() {
     prevTime = time;
     // End First Person Control Animations
 
+    knotMove();
     render();
+}
+
+function knotMove() {
+    knotToon.rotation.x += 0.005;
+    knotToon.rotation.y += 0.005;
+    knotMirror.rotation.x -= 0.005;
+    knotMirror.rotation.y -= 0.005;
+    knotBlue.rotation.x += 0.005;
+    knotBlue.rotation.y += 0.005;
+    knotBubble.rotation.x -= 0.005;
+    knotBubble.rotation.y -= 0.005;
+    knotWire.rotation.x += 0.005;
+    knotWire.rotation.y += 0.005;
 }
 
 // Function to render the scene using the camera.
@@ -269,7 +477,7 @@ function createText() {
     // "text" on next line is the message to be written
     textGeo = new TextGeometry(text, {
         font: font,
-        size: 5,
+        size: 20,
         depth: 2,
         curveSegments: 4,
         bevelThickness: 2,
@@ -286,8 +494,8 @@ function createText() {
 
     // set position and rotation
     textMesh1.position.x = centerOffset;
-    textMesh1.position.z = -100;
-    textMesh1.position.y = -50;
+    textMesh1.position.z = -150;
+    textMesh1.position.y = -75;
     textMesh1.rotation.x = 0;
     textMesh1.rotation.y = Math.PI * 2;
 
