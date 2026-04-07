@@ -1,4 +1,4 @@
-// Video Example Three.js Example
+// Advanced Material Example Three.js Example
 // Chelsea Thompto - Spring 2026
 
 // Three.js uses an import map to add features.
@@ -61,10 +61,7 @@ function init() {
     // scene setup
     canvas = document.getElementById("3-holder");
     scene = new THREE.Scene();
-    //scene.background = new THREE.Color(0xbfeff5);
-    //scene.fog = new THREE.FogExp2(0xbfeff5, 0.0015);
     renderer = new THREE.WebGLRenderer({ antialias: true });
-    //renderer.setPixelRatio( window.devicePixelRatio );
     renderer.setSize(innerWidth, innerHeight);
     renderer.shadowMap.enabled = true;
     renderer.setAnimationLoop(animate);
@@ -158,7 +155,7 @@ function init() {
 
     // End First Person Controls
 
-    // environment map
+    // environment map for reflections and refractions
 
     const cubeloader = new THREE.CubeTextureLoader().setPath("../assets/SwedishRoyalCastle/");
     const cubeTexture = cubeloader.load(["px.jpg", "nx.jpg", "py.jpg", "ny.jpg", "pz.jpg", "nz.jpg"]);
@@ -167,8 +164,6 @@ function init() {
     refractCube.mapping = THREE.CubeRefractionMapping;
     reflectCube.mapping = THREE.CubeReflectionMapping;
     scene.background = cubeTexture;
-
-    // Add world geometry
 
     // Sample Materials
 
@@ -204,11 +199,12 @@ function init() {
         wireframe: true
     });
 
+    // maps for cell shading
+    
     const textureLoader = new THREE.TextureLoader();
     const threeTone = textureLoader.load("../assets/gradientMaps/threeTone.jpg");
     threeTone.minFilter = THREE.NearestFilter;
     threeTone.magFilter = THREE.NearestFilter;
-
     const fiveTone = textureLoader.load("../assets/gradientMaps/fiveTone.jpg");
     fiveTone.minFilter = THREE.NearestFilter;
     fiveTone.magFilter = THREE.NearestFilter;
@@ -250,7 +246,7 @@ function init() {
         }
     );
 
-    // mirror
+    // mirror objects
     const flatMirror = new THREE.Mesh(flatObject, mirrorMat);
     flatMirror.position.set(-30, 20, -50);
     scene.add(flatMirror);
@@ -281,7 +277,7 @@ function init() {
         }
     );
 
-    // bubble
+    // bubble objects
 
     const flatBubble = new THREE.Mesh(flatObject, bubbleMat);
     flatBubble.position.set(30, 20, -50);
@@ -313,7 +309,7 @@ function init() {
         }
     );
 
-    // wire
+    // wire objects
 
     const flatWire = new THREE.Mesh(flatObject, wireMat);
     flatWire.position.set(60, 20, -50);
@@ -345,7 +341,7 @@ function init() {
         }
     );
 
-    // toon
+    // toon 0bjects
     const flatToon = new THREE.Mesh(flatObject, toonMat);
     flatToon.position.set(-60, 20, -50);
     scene.add(flatToon);
@@ -449,7 +445,9 @@ function animate() {
     prevTime = time;
     // End First Person Control Animations
 
+    // animate know geometry
     knotMove();
+    
     render();
 }
 
