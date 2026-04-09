@@ -38,7 +38,7 @@ function init() {
 
         const material = new THREE.MeshBasicMaterial({ map: texture, side: THREE.DoubleSide });
 
-        const sphere = new THREE.SphereGeometry(600, 50, 50);
+        const sphere = new THREE.SphereGeometry(800, 50, 50);
 
         const mesh = new THREE.Mesh(sphere, material);
 
@@ -48,7 +48,7 @@ function init() {
     });
 
     // Setup camera
-    camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 1500);
+    camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 2000);
     camera.position.set(400, 200, 0);
 
     // Setup controls
