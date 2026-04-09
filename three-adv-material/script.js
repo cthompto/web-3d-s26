@@ -5,6 +5,8 @@
 // The "import * as THREE from 'three';" will be
 // in all sketches. Add-ons will be added after.
 
+// 90 degrees = 1.5708
+
 // The main library script
 import * as THREE from "three";
 
@@ -230,7 +232,6 @@ function init() {
             // Scan loaded model for mesh and apply defined material if mesh is present
             gltf.scene.traverse(function (child) {
                 if (child.isMesh) {
-                    //child.material = newMat;
                 }
             });
             // set position and scale
