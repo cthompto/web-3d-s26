@@ -11,9 +11,15 @@ import * as THREE from "three";
 // The plug-in for orbit controls
 import { OrbitControls } from "../src/OrbitControls.js";
 import { HDRLoader } from "../src/HDRLoader.js";
+import { GUI } from "../src/lil-gui.module.min.js";
 
 // Declaring global variables.
 let camera, canvas, controls, scene, renderer;
+
+// for exposure slider
+const params = {
+    exposure: 2.0
+};
 
 // Run the "init" function which is like "setup" in p5.
 init();
@@ -28,6 +34,8 @@ function init() {
     renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(innerWidth * 0.8, innerHeight * 0.8);
     renderer.setAnimationLoop(animate);
+    renderer.toneMapping = THREE.ReinhardToneMapping;
+    renderer.toneMappingExposure = params.exposure;
     canvas.appendChild(renderer.domElement);
 
     // HDR Basic
@@ -62,8 +70,12 @@ function init() {
     controls.cursorStyle = "grab";
     controls.maxPolarAngle = Math.PI / 2;
 
+    const gui = new GUI();
+    gui.add(params, "exposure", 0, 4, 0.01).onChange(render);
+    gui.open();
+
     //// Add world geometry
-//
+    //
     //// Grouping of trees
     //const geometry = new THREE.ConeGeometry(10, 60, 8, 1);
     //const material = new THREE.MeshPhongMaterial({ color: 0x14401e, flatShading: true });
@@ -77,7 +89,7 @@ function init() {
     //    mesh.setMatrixAt(i, tree.matrix);
     //}
     //scene.add(mesh);
-//
+    //
     //// Ground
     //const earth = new THREE.PlaneGeometry(2000, 2000);
     //const ground = new THREE.MeshPhongMaterial({ color: 0x402314, flatShading: true });
@@ -108,5 +120,6 @@ function animate() {
 
 // Function to render the scene using the camera.
 function render() {
+    renderer.toneMappingExposure = params.exposure;
     renderer.render(scene, camera);
 }
