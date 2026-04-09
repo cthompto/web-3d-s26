@@ -54,6 +54,8 @@ var knotWire;
 var knotToon;
 var knotBlue;
 var knotMirror;
+var knotWood;
+var knotVideo;
 
 // Run the "init" function which is like "setup" in p5.
 init();
@@ -83,6 +85,7 @@ function init() {
 
     instructions.addEventListener("click", function () {
         controls.lock();
+        video.play();
     });
 
     controls.addEventListener("lock", function () {
@@ -167,7 +170,7 @@ function init() {
     reflectCube.mapping = THREE.CubeReflectionMapping;
     scene.background = cubeTexture;
 
-    // Sample Materials
+    // Sample Materials //
 
     const mirrorMat = new THREE.MeshPhysicalMaterial({
         color: 0xffffff,
@@ -215,7 +218,32 @@ function init() {
         color: 0xe2049a,
         gradientMap: threeTone
     });
-
+    
+    // wood material
+    
+    // load image as a texture
+    const imgSource = new THREE.TextureLoader().load("../assets/wood-texture.jpg");
+    // use loaded testure in a material
+    const imgMaterial = new THREE.MeshBasicMaterial({
+        map: imgSource,
+        side: THREE.DoubleSide
+    });
+    
+    // video material
+    
+    // load video from HTML and apply to texture
+    video = document.getElementById("video");
+    video.addEventListener("play", function () {
+        this.currentTime = 0;
+    });
+    vidTexture = new THREE.VideoTexture(video);
+    vidTexture.colorSpace = THREE.SRGBColorSpace;
+    const vidMaterial = new THREE.MeshBasicMaterial({ map: vidTexture });
+    
+    
+    // Objects //
+    
+    
     // Center Standard Objects
     const flatBlue = new THREE.Mesh(flatObject, blueMat);
     flatBlue.position.set(0, 20, -50);
@@ -372,7 +400,70 @@ function init() {
             console.error(error);
         }
     );
+    
+    // wood 0bjects
+    const flatWood = new THREE.Mesh(flatObject, imgMaterial);
+    flatWood.position.set(-90, 20, -50);
+    scene.add(flatWood);
 
+    knotWood = new THREE.Mesh(spatialObject, imgMaterial);
+    knotWood.position.set(-90, -10, -50);
+    scene.add(knotWood);
+
+    const loader7 = new GLTFLoader().load(
+        "../assets/phone.glb",
+        function (gltf) {
+            // Scan loaded model for mesh and apply defined material if mesh is present
+            gltf.scene.traverse(function (child) {
+                if (child.isMesh) {
+                    child.material = imgMaterial;
+                }
+            });
+            // set position and scale
+            mesh = gltf.scene;
+            mesh.position.set(-90, 0, -50);
+            mesh.scale.set(0.5, 0.5, 0.5);
+            // Add model to scene
+            scene.add(mesh);
+        },
+        undefined,
+        function (error) {
+            console.error(error);
+        }
+    );
+    
+
+    // video 0bjects
+    const flatVideo = new THREE.Mesh(flatObject, vidMaterial);
+    flatVideo.position.set(90, 20, -50);
+    scene.add(flatVideo);
+
+    knotVideo = new THREE.Mesh(spatialObject, vidMaterial);
+    knotVideo.position.set(90, -10, -50);
+    scene.add(knotVideo);
+
+    const loader8 = new GLTFLoader().load(
+        "../assets/phone.glb",
+        function (gltf) {
+            // Scan loaded model for mesh and apply defined material if mesh is present
+            gltf.scene.traverse(function (child) {
+                if (child.isMesh) {
+                    child.material = vidMaterial;
+                }
+            });
+            // set position and scale
+            mesh = gltf.scene;
+            mesh.position.set(90, 0, -50);
+            mesh.scale.set(0.5, 0.5, 0.5);
+            // Add model to scene
+            scene.add(mesh);
+        },
+        undefined,
+        function (error) {
+            console.error(error);
+        }
+    );
+    
     // text
 
     // materials for the text
@@ -453,6 +544,8 @@ function animate() {
 }
 
 function knotMove() {
+    knotWood.rotation.x -= 0.005;
+    knotWood.rotation.y -= 0.005;
     knotToon.rotation.x += 0.005;
     knotToon.rotation.y += 0.005;
     knotMirror.rotation.x -= 0.005;
@@ -463,6 +556,8 @@ function knotMove() {
     knotBubble.rotation.y -= 0.005;
     knotWire.rotation.x += 0.005;
     knotWire.rotation.y += 0.005;
+    knotVideo.rotation.x -= 0.005;
+    knotVideo.rotation.y -= 0.005;
 }
 
 // Function to render the scene using the camera.
