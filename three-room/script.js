@@ -208,7 +208,7 @@ function init() {
 
     scene.add(group);
 
-    // image 
+    // image
 
     // load image as a texture
     const imgSource = new THREE.TextureLoader().load("../assets/cab-curio-1.jpg");
@@ -256,22 +256,43 @@ function animate() {
         velocity.x -= velocity.x * 10.0 * delta;
         velocity.z -= velocity.z * 10.0 * delta;
 
+        // change gravity
         velocity.y -= 9.8 * 100.0 * delta; // 100.0 = mass
 
         direction.z = Number(moveForward) - Number(moveBackward);
         direction.x = Number(moveRight) - Number(moveLeft);
         direction.normalize(); // this ensures consistent movements in all directions
 
-        if (moveForward || moveBackward) velocity.z -= direction.z * 400.0 * delta;
-        if (moveLeft || moveRight) velocity.x -= direction.x * 400.0 * delta;
+
+        // change number before delta to change speed
+        if (moveForward || moveBackward) velocity.z -= direction.z * 1000.0 * delta;
+        if (moveLeft || moveRight) velocity.x -= direction.x * 1000.0 * delta;
 
         controls.moveRight(-velocity.x * delta);
         controls.moveForward(-velocity.z * delta);
 
+        // space limiting code adjust numbers to fit your space
+        // use geometery size and numbers as reference
+
+        if (controls.object.position.x > 140) {
+            controls.object.position.x = 139;
+        } else if (controls.object.position.x < -140) {
+            controls.object.position.x = -139;
+        }
+
+        if (controls.object.position.z > 240) {
+            controls.object.position.z = 239;
+        } else if (controls.object.position.z < -240) {
+            controls.object.position.z = -239;
+        }
+
         // jump fix
         controls.object.position.y += velocity.y * delta;
         if (controls.object.position.y < 10) {
-            velocity.y = 0;
+            
+            // adjust jump height: -200 for tiny jump, 0 for normal
+            // scale -200 - 20
+            velocity.y = 20;
             controls.object.position.y = 10;
 
             canJump = true;
@@ -311,7 +332,7 @@ function createText() {
     textMesh1 = new THREE.Mesh(textGeo, materials);
 
     // set position and rotation
-    textMesh1.position.x = centerOffset-70;
+    textMesh1.position.x = centerOffset - 70;
     textMesh1.position.z = -90;
     textMesh1.position.y = -100;
     //textMesh1.rotation.z = 1.5708;

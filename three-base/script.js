@@ -26,13 +26,13 @@ function init() {
     scene.background = new THREE.Color( 0xbfeff5 );
     scene.fog = new THREE.FogExp2( 0xbfeff5, 0.0015 );
     renderer = new THREE.WebGLRenderer( { antialias: true } );
-    renderer.setPixelRatio( window.devicePixelRatio );
+    //renderer.setPixelRatio( window.devicePixelRatio );
     renderer.setSize( 400,400 );
     renderer.setAnimationLoop( animate );
     canvas.appendChild( renderer.domElement );
 
     // Setup camera
-    camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 1000 );
+    camera = new THREE.PerspectiveCamera( 60, 1, 1, 1000 );
     camera.position.set( 400, 200, 0 );
 
     // Setup controls

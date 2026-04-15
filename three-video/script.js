@@ -69,6 +69,7 @@ function init() {
 
     instructions.addEventListener("click", function () {
         controls.lock();
+        // added to play video on click
         video.play();
     });
 
