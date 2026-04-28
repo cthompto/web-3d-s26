@@ -91,7 +91,7 @@ function init() {
                 moveRight = true;
                 break;
                 
-            // interaction to add cube
+            // interaction to add cube see function at bottom
             case "KeyA":
                 newCube();
                 break;
@@ -216,16 +216,17 @@ function render() {
 // function for adding cube
 function newCube() {
     const myShape = new THREE.BoxGeometry( 5, 5, 5 );
-    const cubeMat = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+    const cubeMat = new THREE.MeshPhongMaterial( { color: 0x00ff00 } );
     const myCube = new THREE.Mesh( myShape, cubeMat );
-    let cX = controls.object.position.x;
-    let cY = controls.object.position.y;
-    let cZ = controls.object.position.z;
-    let camDir = new THREE.Vector3();
-    console.log(camera.getWorldDirection(camDir));
-    let camPos = new THREE.Vector3();
-    console.log(camera.getWorldPosition(camPos));
-    myCube.position.set(cX,cY,cZ);
+    
+    // copy the camera position and rotation
+    myCube.position.copy( camera.position );
+    myCube.rotation.copy( camera.rotation );
+    myCube.updateMatrix();
+    // add distance
+    myCube.translateZ( - 30 );
+    // add to scene
     scene.add( myCube );
     console.log("cube added");
+    
 }
